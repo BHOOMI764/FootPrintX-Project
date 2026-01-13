@@ -21,7 +21,7 @@ interface Message {
   text: string;
   sender: 'user' | 'bot';
   timestamp: Date;
-  type?: 'text' | 'suggestion' | 'quick_reply';
+  type?: 'text' | 'suggestion' | 'quick_reply' | 'action';
   action?: string;
   suggestions?: string[];
   quickReplies?: string[];
@@ -111,7 +111,8 @@ export function FloatingChatbot() {
 
   const generateBotResponse = async (userInput: string, context: UserContext): Promise<{
     text: string;
-    type: 'text' | 'suggestion' | 'quick_reply';
+    type: 'text' | 'suggestion' | 'quick_reply' | 'action';
+    action?: string;
     suggestions?: string[];
     quickReplies?: string[];
   }> => {
@@ -205,7 +206,7 @@ export function FloatingChatbot() {
         type: 'action',
         action: 'unlock_all',
         quickReplies: ['Open gamification', 'Reset achievements']
-      } as any;
+      };
     }
 
     // Fallback response
