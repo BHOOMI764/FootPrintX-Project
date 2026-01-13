@@ -38,7 +38,6 @@ export function Navbar() {
               {user && <Link href="/tips-blog" className="text-sm hover:text-foreground/80">Tips & Blog</Link>}
               {user && <Link href="/chatbot" className="text-sm hover:text-foreground/80">AI Assistant</Link>}
               {user && <Link href="/complaints" className="text-sm hover:text-foreground/80">Complaints</Link>}
-              {/* Removed Creative Dashboard, Notifications, Leaderboard links per request */}
               {user && <Link href="/export" className="text-sm hover:text-foreground/80">Export</Link>}
             </nav>
           </div>

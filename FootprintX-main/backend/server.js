@@ -63,7 +63,6 @@ io.on('connection', (socket) => {
 app.set('io', io);
 
 app.get('/', (req, res) => res.send('API Running'));
-
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/calculate', require('./routes/calculate'));
 app.use('/api/complain', require('./routes/complain'));

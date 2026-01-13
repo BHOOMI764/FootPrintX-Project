@@ -199,7 +199,6 @@ export function FloatingChatbot() {
       };
     }
 
-    // Local action: unlock all achievements
     if (input.includes('unlock all') || input.includes('unlock achievements') || input.includes('unlock all achievements')) {
       return {
         text: "I'll unlock all achievements for you locally. Open the Gamification page to view them.",
@@ -243,7 +242,6 @@ export function FloatingChatbot() {
 
       setMessages(prev => [...prev, botMessage]);
 
-      // Handle server-declared actions immediately (avoid reading stale state)
       if (response.data.type === 'action' && response.data.action === 'unlock_all') {
         try { localStorage.setItem('unlockAllAchievements', 'true'); } catch (e) {}
         const confirmMsg: Message = {

@@ -26,7 +26,6 @@ interface Tip {
   impact: 'low' | 'medium' | 'high';
   tags: string[];
   date: string;
-  readTime: number;
 }
 
 interface BlogPost {
@@ -36,7 +35,6 @@ interface BlogPost {
   content: string;
   author: string;
   date: string;
-  readTime: number;
   tags: string[];
   featured: boolean;
 }
@@ -63,8 +61,7 @@ function TipsBlogContent() {
         difficulty: 'easy',
         impact: 'medium',
         tags: ['energy', 'home', 'lighting'],
-        date: '2024-01-15',
-        readTime: 2
+        date: '2024-01-15'
       },
       {
         id: '2',
@@ -75,7 +72,6 @@ function TipsBlogContent() {
         impact: 'high',
         tags: ['food', 'diet', 'vegetarian'],
         date: '2024-01-14',
-        readTime: 3
       },
       {
         id: '3',
@@ -85,8 +81,7 @@ function TipsBlogContent() {
         difficulty: 'medium',
         impact: 'high',
         tags: ['energy', 'heating', 'home'],
-        date: '2024-01-13',
-        readTime: 4
+        date: '2024-01-13'
       },
       {
         id: '4',
@@ -96,8 +91,7 @@ function TipsBlogContent() {
         difficulty: 'medium',
         impact: 'high',
         tags: ['transport', 'public-transit', 'commuting'],
-        date: '2024-01-12',
-        readTime: 3
+        date: '2024-01-12'
       },
       {
         id: '5',
@@ -107,8 +101,7 @@ function TipsBlogContent() {
         difficulty: 'easy',
         impact: 'low',
         tags: ['digital', 'streaming', 'cloud'],
-        date: '2024-01-11',
-        readTime: 2
+        date: '2024-01-11'
       },
       {
         id: '6',
@@ -118,8 +111,7 @@ function TipsBlogContent() {
         difficulty: 'medium',
         impact: 'medium',
         tags: ['waste', 'composting', 'garden'],
-        date: '2024-01-10',
-        readTime: 5
+        date: '2024-01-10'
       }
     ];
 
@@ -131,7 +123,6 @@ function TipsBlogContent() {
         content: 'Our digital lives have a surprising environmental impact. From streaming videos to cloud storage, every digital action consumes energy...',
         author: 'Sarah Chen',
         date: '2024-01-15',
-        readTime: 8,
         tags: ['digital', 'carbon-footprint', 'technology'],
         featured: true
       },
@@ -142,7 +133,6 @@ function TipsBlogContent() {
         content: 'While electric vehicles represent a significant step forward in sustainable transportation, they\'re not the only solution...',
         author: 'Mike Rodriguez',
         date: '2024-01-12',
-        readTime: 6,
         tags: ['transportation', 'sustainability', 'electric-vehicles'],
         featured: false
       },
@@ -153,7 +143,6 @@ function TipsBlogContent() {
         content: 'Why do we know climate change is important but struggle to take action? The psychology behind climate behavior reveals fascinating insights...',
         author: 'Dr. Emily Watson',
         date: '2024-01-10',
-        readTime: 10,
         tags: ['psychology', 'climate-action', 'behavior'],
         featured: false
       }
@@ -280,7 +269,6 @@ function TipsBlogContent() {
                   <div className="flex items-center gap-4">
                     <span className="flex items-center gap-1">
                       <Calendar className="h-3 w-3" />
-                      {tip.readTime} min read
                     </span>
                   </div>
                   <div className="flex gap-1">
@@ -317,7 +305,6 @@ function TipsBlogContent() {
                       <Calendar className="h-3 w-3" />
                       {new Date(post.date).toLocaleDateString()}
                     </span>
-                    <span>{post.readTime} min read</span>
                   </div>
                   <Button variant="ghost" size="sm">
                     Read More <ArrowRight className="h-3 w-3 ml-1" />

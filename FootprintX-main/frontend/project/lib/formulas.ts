@@ -21,7 +21,7 @@ export function computePhysical(input: PhysicalInput) {
   const energy = input.energyKwhPerMonth * 12 * 0.475; // kg CO2e per kWh
   const waste = input.wasteKgPerWeek * 52 * 0.5; // kg CO2e per kg waste
   const shopping = input.shoppingUsdPerMonth * 12 * 0.02; // kg CO2e per USD
-  const flights = input.flightsHoursPerYear * 90; // rough kg CO2e per flight hour
+  const flights = input.flightsHoursPerYear * 90 * 1.9; // rough kg CO2e per flight hour
 
   const breakdown = {
     transportation,
