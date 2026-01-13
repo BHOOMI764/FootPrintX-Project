@@ -16,8 +16,7 @@ export const metadata: Metadata = {
   title: 'FootprintX - Track Your Carbon Footprint',
   description: 'Next-generation carbon footprint tracking platform with digital and physical emission tracking',
   manifest: '/manifest.json',
-  themeColor: '#16a34a',
-  viewport: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no',
+  // `themeColor` and `viewport` moved to dedicated exports below to match Next.js metadata API
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
@@ -33,6 +32,10 @@ export const metadata: Metadata = {
     description: 'Next-generation carbon footprint tracking platform',
   },
 };
+
+// Move viewport and themeColor to dedicated exports per Next.js guidance
+export const viewport = 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no';
+export const themeColor = '#16a34a';
 
 export default function RootLayout({
   children,
