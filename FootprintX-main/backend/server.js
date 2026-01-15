@@ -81,11 +81,10 @@ const startServer = async () => {
     console.log('Database synchronized');
 
     const PORT = process.env.PORT || 5000;
-    server.listen(PORT, '127.0.0.1', () => {
+    server.listen(PORT, '0.0.0.0', () => {
       console.log(`Server running on port ${PORT}`);
       console.log(`WebSocket server ready for real-time connections`);
-      console.log(`Listening on http://127.0.0.1:${PORT}`);
-      console.log(`Listening on http://localhost:${PORT}`);
+      console.log(`Access at http://0.0.0.0:${PORT}`);
     });
 
     server.on('error', (err) => {

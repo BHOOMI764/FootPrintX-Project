@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: footprintx-backend
+    env: node
+    rootDir: FootprintX-main/backend
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: PORT
+        value: 5000
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        value: 2a61bb0a8ab262987ece42246cca2ad438c972b58ec19930599dc9dc4b43cefc
+      - key: JWT_EXPIRATION
+        value: 7d
+      - key: FRONTEND_URL
+        value: https://foot-print-x-frontend.vercel.app
+      - key: SQLITE_PATH
+        value: ./database.sqlite
