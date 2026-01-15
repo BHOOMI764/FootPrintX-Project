@@ -136,3 +136,44 @@ exports.getMe = async (req, res) => {
         res.status(500).send('Server error fetching user data');
     }
 };
+
+// @route   POST api/auth/demo
+// @desc    Get demo/guest token without registration
+// @access  Public
+exports.demoLogin = async (req, res) => {
+    try {
+        // Create a demo user or use existing one
+        let demoUser = await User.findOne({ where: { email: 'demo@footprintx.com' } });
+        
+        if (!demoUser) {
+            const salt = await bcrypt.genSalt(10);
+            const hashedPassword = await bcrypt.hash('demo123', salt);
+            demoUser = await User.create({
+                email: 'demo@footprintx.com',
+                password: hashedPassword,
+            });
+        }
+
+        const payload = {
+            user: {
+                id: demoUser.id,
+            },
+        };
+
+        jwt.sign(
+            payload,
+            process.env.JWT_SECRET,
+            { expiresIn: process.env.JWT_EXPIRATION || '7d' },
+            (err, token) => {
+                if (err) {
+                    console.error('JWT Signing Error:', err);
+                    return res.status(500).json({ msg: 'Error generating token' });
+                }
+                res.json({ token, isDemo: true });
+            }
+        );
+    } catch (err) {
+        console.error('Demo Login Error:', err.message);
+        res.status(500).send('Server error during demo login');
+    }
+};

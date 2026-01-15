@@ -13,21 +13,34 @@ const LoginPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-    const { login } = useAuth();
+    const [loading, setLoading] = useState(false);
+    const { login, demoLogin } = useAuth();
     const router = useRouter();
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setError('');
+        setLoading(true);
         if (!email || !password) {
             setError('Please enter email and password');
+            setLoading(false);
             return;
         }
         const result = await login(email, password);
         if (!result.success) {
             setError(result.message || 'Login failed');
         }
-        // Redirect is handled within the login function on success
+        setLoading(false);
+    };
+
+    const handleDemoLogin = async () => {
+        setError('');
+        setLoading(true);
+        const result = await demoLogin();
+        if (!result.success) {
+            setError(result.message || 'Demo login failed');
+        }
+        setLoading(false);
     };
 
     return (
@@ -45,6 +58,7 @@ const LoginPage = () => {
                             onChange={(e) => setEmail(e.target.value)}
                             required
                             placeholder="Enter your email"
+                            disabled={loading}
                         />
                     </div>
                     <div className="space-y-2">
@@ -56,12 +70,29 @@ const LoginPage = () => {
                             onChange={(e) => setPassword(e.target.value)}
                             required
                             placeholder="Enter your password"
+                            disabled={loading}
                         />
                     </div>
-                    <Button type="submit" className="w-full">
-                        Login
+                    <Button type="submit" className="w-full" disabled={loading}>
+                        {loading ? 'Loading...' : 'Login'}
                     </Button>
                 </form>
+                
+                <div className="my-4 flex items-center gap-4">
+                    <hr className="flex-1" />
+                    <span className="text-xs text-muted-foreground">OR</span>
+                    <hr className="flex-1" />
+                </div>
+                
+                <Button 
+                    onClick={handleDemoLogin} 
+                    variant="outline" 
+                    className="w-full mb-4"
+                    disabled={loading}
+                >
+                    {loading ? 'Loading...' : 'Try Demo'}
+                </Button>
+                
                 <p className="mt-4 text-center text-sm text-muted-foreground">
                     Don&apos;t have an account?{' '}
                     <Link href="/register" className="text-primary hover:underline">

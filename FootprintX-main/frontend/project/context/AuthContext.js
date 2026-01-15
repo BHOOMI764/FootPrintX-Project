@@ -73,8 +73,24 @@ export const AuthProvider = ({ children }) => {
         router.push('/login'); // Redirect to login page
     };
 
+    const demoLogin = async () => {
+        try {
+            const res = await apiClient.post('/api/auth/demo');
+            const { token } = res.data;
+            setAuthToken(token);
+            setUser({ token, isDemo: true });
+            router.push('/dashboard');
+            return { success: true };
+        } catch (error) {
+            console.error('Demo login failed:', error);
+            setAuthToken(null);
+            setUser(null);
+            return { success: false, message: 'Demo login failed' };
+        }
+    };
+
     return (
-        <AuthContext.Provider value={{ user, loading, login, register, logout }}>
+        <AuthContext.Provider value={{ user, loading, login, register, logout, demoLogin }}>
             {children}
         </AuthContext.Provider>
     );

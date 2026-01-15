@@ -13,6 +13,11 @@ router.post('/register', authController.register);
 // @access  Public
 router.post('/login', authController.login);
 
+// @route   POST api/auth/demo
+// @desc    Get demo/guest token
+// @access  Public
+router.post('/demo', authController.demoLogin);
+
 // @route   GET api/auth/me
 // @desc    Get current authenticated user
 // @access  Private
