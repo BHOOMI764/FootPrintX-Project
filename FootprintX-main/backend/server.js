@@ -80,9 +80,20 @@ const startServer = async () => {
     await sequelize.sync({ force: false });
     console.log('Database synchronized');
 
-    server.listen(PORT, () => {
+    const PORT = process.env.PORT || 5000;
+    server.listen(PORT, '127.0.0.1', () => {
       console.log(`Server running on port ${PORT}`);
       console.log(`WebSocket server ready for real-time connections`);
+      console.log(`Listening on http://127.0.0.1:${PORT}`);
+      console.log(`Listening on http://localhost:${PORT}`);
+    });
+
+    server.on('error', (err) => {
+      console.error('Server error:', err);
+      if (err.code === 'EADDRINUSE') {
+        console.error(`Port ${PORT} is already in use`);
+        process.exit(1);
+      }
     });
   } catch (error) {
     console.error('Server failed to start:', error);
