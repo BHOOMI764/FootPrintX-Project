@@ -5,11 +5,18 @@ require('dotenv').config();
 
 exports.register = async (req, res) => {
     const { email, password } = req.body;
+    console.log('Register attempt for email:', email);
 
     try {
+        if (!email || !password) {
+            console.log('Missing email or password');
+            return res.status(400).json({ errors: [{ msg: 'Email and password are required' }] });
+        }
+
         let existingUser = await User.findOne({ where: { email: email } });
 
         if (existingUser) {
+            console.log('User already exists');
             return res.status(400).json({ errors: [{ msg: 'User already exists' }] });
         }
 
@@ -23,33 +30,34 @@ exports.register = async (req, res) => {
             password: hashedPassword,
         });
 
+        console.log('User created successfully:', newUser.id);
+
         // Return jsonwebtoken
         const payload = {
             user: {
-                id: newUser.id, // Use the id from the created user
+                id: newUser.id,
             },
         };
 
         jwt.sign(
             payload,
             process.env.JWT_SECRET,
-            { expiresIn: process.env.JWT_EXPIRATION || '1h' }, // Use env var for expiration
+            { expiresIn: process.env.JWT_EXPIRATION || '7d' },
             (err, token) => {
                 if (err) {
                     console.error('JWT Signing Error during registration:', err);
-                    // Don't throw, send an error response
                     return res.status(500).json({ msg: 'Error generating token' });
                 }
+                console.log('Token generated successfully');
                 res.json({ token });
             }
         );
     } catch (err) {
-        console.error('Register Error:', err.message);
-        // Check for Sequelize validation errors
+        console.error('Register Error:', err.message, err);
         if (err.name === 'SequelizeValidationError') {
             return res.status(400).json({ errors: err.errors.map(e => ({ msg: e.message })) });
         }
-        res.status(500).send('Server error during registration');
+        res.status(500).json({ msg: 'Server error during registration' });
     }
 };
 
@@ -61,6 +69,11 @@ exports.login = async (req, res) => {
     console.log('Login attempt for email:', email);
 
     try {
+        if (!email || !password) {
+            console.log('Missing email or password');
+            return res.status(400).json({ errors: [{ msg: 'Email and password are required' }] });
+        }
+
         // See if user exists using Sequelize
         let user = await User.findOne({ where: { email: email } });
         console.log('User found:', user ? 'Yes' : 'No');
@@ -95,11 +108,10 @@ exports.login = async (req, res) => {
         jwt.sign(
             payload,
             process.env.JWT_SECRET,
-            { expiresIn: process.env.JWT_EXPIRATION || '1h' },
+            { expiresIn: process.env.JWT_EXPIRATION || '7d' },
             (err, token) => {
                 if (err) {
                     console.error('JWT signing error:', err);
-                    // Don't throw, send an error response
                     return res.status(500).json({ msg: 'Error generating token' });
                 }
                 console.log('Token generated successfully');
@@ -107,8 +119,8 @@ exports.login = async (req, res) => {
             }
         );
     } catch (err) {
-        console.error('Login error:', err.message);
-        res.status(500).send('Server error during login');
+        console.error('Login error:', err.message, err);
+        res.status(500).json({ msg: 'Server error during login' });
     }
 };
 
@@ -142,16 +154,22 @@ exports.getMe = async (req, res) => {
 // @access  Public
 exports.demoLogin = async (req, res) => {
     try {
+        console.log('Demo login attempt');
+        
         // Create a demo user or use existing one
         let demoUser = await User.findOne({ where: { email: 'demo@footprintx.com' } });
         
         if (!demoUser) {
+            console.log('Creating demo user');
             const salt = await bcrypt.genSalt(10);
             const hashedPassword = await bcrypt.hash('demo123', salt);
             demoUser = await User.create({
                 email: 'demo@footprintx.com',
                 password: hashedPassword,
             });
+            console.log('Demo user created:', demoUser.id);
+        } else {
+            console.log('Demo user already exists:', demoUser.id);
         }
 
         const payload = {
@@ -169,11 +187,12 @@ exports.demoLogin = async (req, res) => {
                     console.error('JWT Signing Error:', err);
                     return res.status(500).json({ msg: 'Error generating token' });
                 }
+                console.log('Demo token generated successfully');
                 res.json({ token, isDemo: true });
             }
         );
     } catch (err) {
-        console.error('Demo Login Error:', err.message);
-        res.status(500).send('Server error during demo login');
+        console.error('Demo Login Error:', err.message, err);
+        res.status(500).json({ msg: 'Server error during demo login' });
     }
 };

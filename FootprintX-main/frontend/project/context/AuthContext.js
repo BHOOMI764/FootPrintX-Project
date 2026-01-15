@@ -37,33 +37,45 @@ export const AuthProvider = ({ children }) => {
 
     const login = async (email, password) => {
         try {
+            console.log('Attempting login with email:', email);
             const res = await apiClient.post('/api/auth/login', { email, password });
             const { token } = res.data;
+            console.log('Login response received:', token ? 'Token received' : 'No token');
             setAuthToken(token);
-            setUser({ token }); // Update user state
-            router.push('/dashboard'); // Redirect to dashboard after login
+            setUser({ token });
+            router.push('/dashboard');
             return { success: true };
         } catch (error) {
-            console.error('Login failed:', error.response ? error.response.data : error.message);
-            setAuthToken(null); // Clear token on failure
+            const errorMsg = error.response?.data?.errors?.[0]?.msg || 
+                           error.response?.data?.msg || 
+                           error.message || 
+                           'Login failed';
+            console.error('Login failed:', errorMsg, error);
+            setAuthToken(null);
             setUser(null);
-            return { success: false, message: error.response?.data?.errors?.[0]?.msg || 'Login failed' };
+            return { success: false, message: errorMsg };
         }
     };
 
     const register = async (email, password) => {
         try {
+            console.log('Attempting register with email:', email);
             const res = await apiClient.post('/api/auth/register', { email, password });
             const { token } = res.data;
+            console.log('Register response received:', token ? 'Token received' : 'No token');
             setAuthToken(token);
-            setUser({ token }); // Update user state
-            router.push('/dashboard'); // Redirect to dashboard after registration
+            setUser({ token });
+            router.push('/dashboard');
             return { success: true };
         } catch (error) {
-            console.error('Registration failed:', error.response ? error.response.data : error.message);
+            const errorMsg = error.response?.data?.errors?.[0]?.msg || 
+                           error.response?.data?.msg || 
+                           error.message || 
+                           'Registration failed';
+            console.error('Registration failed:', errorMsg, error);
             setAuthToken(null);
             setUser(null);
-            return { success: false, message: error.response?.data?.errors?.[0]?.msg || 'Registration failed' };
+            return { success: false, message: errorMsg };
         }
     };
 
@@ -75,17 +87,23 @@ export const AuthProvider = ({ children }) => {
 
     const demoLogin = async () => {
         try {
+            console.log('Attempting demo login');
             const res = await apiClient.post('/api/auth/demo');
             const { token } = res.data;
+            console.log('Demo login response received:', token ? 'Token received' : 'No token');
             setAuthToken(token);
             setUser({ token, isDemo: true });
             router.push('/dashboard');
             return { success: true };
         } catch (error) {
-            console.error('Demo login failed:', error);
+            const errorMsg = error.response?.data?.errors?.[0]?.msg || 
+                           error.response?.data?.msg || 
+                           error.message || 
+                           'Demo login failed';
+            console.error('Demo login failed:', errorMsg, error);
             setAuthToken(null);
             setUser(null);
-            return { success: false, message: 'Demo login failed' };
+            return { success: false, message: errorMsg };
         }
     };
 
