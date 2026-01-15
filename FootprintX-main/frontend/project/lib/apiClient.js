@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Get the backend URL from environment or use default
-const apiBaseUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://footprintx-backend.onrender.com';
+const apiBaseUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://footprintx-projectxx.onrender.com';
 
 const apiClient = axios.create({
     baseURL: apiBaseUrl,
