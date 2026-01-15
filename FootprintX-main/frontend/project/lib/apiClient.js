@@ -1,14 +1,30 @@
 import axios from 'axios';
 
-// Get the backend URL from environment or use default
-const apiBaseUrl = process.env.NEXT_PUBLIC_BACKEND_URL || (
-  typeof window !== 'undefined' && window.location.hostname === 'localhost'
-    ? 'http://localhost:5000'
-    : 'https://footprintx-projectxx.onrender.com'
-);
+// Determine the backend URL - always use localhost:5000 in development
+const getApiBaseUrl = () => {
+    // Environment variable takes priority
+    if (process.env.NEXT_PUBLIC_BACKEND_URL) {
+        return process.env.NEXT_PUBLIC_BACKEND_URL;
+    }
+    
+    // Check if running on localhost
+    if (typeof window !== 'undefined') {
+        const hostname = window.location.hostname;
+        if (hostname === 'localhost' || hostname === '127.0.0.1') {
+            return 'http://localhost:5000';
+        }
+    }
+    
+    // Production fallback
+    return 'https://footprintx-projectxx.onrender.com';
+};
+
+const apiBaseUrl = getApiBaseUrl();
+console.log('API Base URL:', apiBaseUrl);
 
 const apiClient = axios.create({
     baseURL: apiBaseUrl,
+    withCredentials: true,
 });
 
 // Interceptor to add the token to requests
