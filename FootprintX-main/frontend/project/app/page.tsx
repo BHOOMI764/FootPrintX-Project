@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { ArrowRight, BarChart3, Globe2, Lightbulb } from 'lucide-react';
+import { ArrowRight, BarChart3, Globe2, Lightbulb, Zap } from 'lucide-react';
 import Link from 'next/link';
 
 export default function Home() {
@@ -20,14 +20,17 @@ export default function Home() {
             footprint with our AI-powered platform.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
-            <Button size="lg" asChild>
-              <Link href="/calculate">
-                Get Started
-                <ArrowRight className="ml-2 h-4 w-4" />
+            <Button size="lg" asChild className="bg-green-600 hover:bg-green-700">
+              <Link href="/login">
+                <Zap className="mr-2 h-4 w-4" />
+                Try Demo Now (No Login!)
               </Link>
             </Button>
-            <Button size="lg" variant="outline" asChild>
-              <Link href="/register">Register Now</Link>
+            <Button size="lg" asChild>
+              <Link href="/register">
+                Create Account
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
             </Button>
           </div>
         </div>
