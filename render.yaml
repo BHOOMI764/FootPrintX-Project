@@ -15,6 +15,6 @@ services:
       - key: JWT_EXPIRATION
         value: 7d
       - key: FRONTEND_URL
-        value: https://foot-print-x-frontend.vercel.app
+        value: https://foot-print-x-sustainability-web.vercel.app
       - key: SQLITE_PATH
         value: ./database.sqlite
