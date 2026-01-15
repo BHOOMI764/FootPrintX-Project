@@ -16,8 +16,5 @@ services:
         value: 7d
       - key: FRONTEND_URL
         value: https://foot-print-x-frontend.vercel.app
-  
-  - type: postgres
-    name: footprintx-db
-    plan: free
-    ipAllowList: []
+      - key: SQLITE_PATH
+        value: ./database.sqlite
