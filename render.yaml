@@ -3,8 +3,8 @@ services:
     name: footprintx-backend
     env: node
     rootDir: FootprintX-main/backend
-    buildCommand: npm install
-    startCommand: node server.js
+    buildCommand: npm install --legacy-peer-deps
+    startCommand: npm start
     envVars:
       - key: PORT
         value: 5000
@@ -16,5 +16,12 @@ services:
         value: 7d
       - key: FRONTEND_URL
         value: https://foot-print-x-frontend.vercel.app
-      - key: SQLITE_PATH
-        value: ./database.sqlite
+      - key: DATABASE_URL
+        fromDatabase:
+          name: footprintx-db
+          property: connectionString
+  
+  - type: postgres
+    name: footprintx-db
+    plan: free
+    ipAllowList: []

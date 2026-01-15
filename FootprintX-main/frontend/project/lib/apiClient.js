@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-// Use relative URLs since Next.js will proxy /api/* to the backend
-const apiBaseUrl = process.env.NEXT_PUBLIC_BACKEND_URL || '';
+// Get the backend URL from environment or use default
+const apiBaseUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://footprintx-backend.onrender.com';
 
 const apiClient = axios.create({
     baseURL: apiBaseUrl,
